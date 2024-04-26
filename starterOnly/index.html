@@ -60,7 +60,7 @@
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return validate();"
+              onsubmit= "(e) => validate(e)"
             >
               <div
                 class="formData">
@@ -205,6 +205,13 @@
               />
             </form>
           </div>
+        </div>
+      </div>
+      <div class="confirmationModal">
+        <div class="content content-middle">
+          <span class="close"></span>
+          <p class="msg">Merci pour votre inscription</p>
+          <button class="btn-submit end">Fermer</button>
         </div>
       </div>
     </main>

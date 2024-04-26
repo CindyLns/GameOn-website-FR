@@ -11,7 +11,10 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-let btnClose = document.querySelector(".close");
+const closeBtns = document.querySelectorAll(".close");
+const endBtn = document.querySelector(".end");
+const modalConf = document.querySelector(".confirmationModal")
+
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -22,12 +25,15 @@ function launchModal() {
 }
 
 // Close modal event
-btnClose.addEventListener("click", closeModal);
+closeBtns.addEventListener("click", closeModal);
+endBtn.addEventListener("click", closeModal);
 
 // Close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  modalConf.style.display = "none";
 }
+
 
 
 // Données saisies
@@ -54,40 +60,97 @@ function verifierChamp(balise) {
     }
 }
 
+function verifierAnniv() {
+  let baliseBirthdate = document.getElementById("birthdate");
+  let birthdate = baliseBirthdate.value;
+  let parentFormData = baliseBirthdate.parentElement.closest(".formData");
+
+  if (!birthdate) {
+      parentFormData.classList.add("formData");
+      parentFormData.setAttribute("data-error-visible", "true");
+      parentFormData.setAttribute("data-error",  `Veuillez entrer une date de naissance`);
+  } else {
+      parentFormData.classList.remove("formData");
+      parentFormData.removeAttribute("data-error-visible");
+      parentFormData.removeAttribute("data-error");
+  }
+}
+
+
+
+
+/*
 let baliseEmail = document.getElementById("email")
 let email = baliseEmail.value
 
 function validerEmail(email) {
-  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
+  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+  let parentFormData = balise.parentElement.closest(".formData");
   if (!emailRegExp.test(email)) {
-    email.classList.add("data-error")
+    parentFormData.classList.add("formData");
+        parentFormData.setAttribute("data-error-visible", "true");
+        parentFormData.setAttribute("data-error",  `L'adresse électronique n'est pas valide`);
   } else {
-    email.classList.remove("data-error")
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
   }
+}*/
+
+
+
+
+function validate(e) {
+  e.preventDefault()
+  console.log("est ce qu'on est dedans")
+  var firstName = document.getElementById('first').value;
+  var lastName = document.getElementById('last').value;
+  var birthdate = document.getElementById('birthdate').value;
+ /* var location = document.querySelector('input[name="location"]:checked');
+  var checkbox1 = document.getElementById('checkbox1').checked;*/
+
+  // Vérification du champ Nom
+  if (firstName.length < 2 && lastName.length < 2) {
+    verifierChamp(baliseNom)
+    verifierChamp(balisePrenom)
+  }
+
+  /*// Vérification de l'option de localisation
+  if (!location) {
+      alert("Veuillez choisir une option de localisation.");
+      return false;
+  }
+
+  // Vérification de l'acceptation des conditions
+  if (!checkbox1) {
+      alert("Veuillez accepter les conditions d'utilisation.");
+      return false;
+  }*/
+
+  // Vérification de la date de naissance
+  if (!birthdate) {
+      verifierAnniv()
+  }
+
+  // Affichage du message de confirmation
+  document.querySelector(".confirmationModal").style.display = "block";
+  return false
 }
 
-let baliseLocation = document.querySelectorAll('input[name="location"]')
-
-  function selectionnerRadio() {
-    let selection = false;
-    for (let i = 0; i < baliseLocation.length; i++) {
-        if (baliseLocation[i].checked) {
-            selection = true;
-            break; 
-        }
-    }
-    return selection;
-    
-}
 
 
-// Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
+
+
+
+
+
+
+
+/*// Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
 form.addEventListener("submit", (event) => {
    event.preventDefault()
-        verifierChamp(baliseNom)
-        verifierChamp(balisePrenom)
-        validerEmail(baliseEmail)
+        validate()
 
-});
+});*/
 
 
