@@ -25,7 +25,9 @@ function launchModal() {
 }
 
 // Close modal event
-closeBtns.addEventListener("click", closeModal);
+closeBtns.forEach((closeBtn) => closeBtn.addEventListener("click", closeModal));
+
+//closeBtns.addEventListener("click", closeModal);
 endBtn.addEventListener("click", closeModal);
 
 // Close modal form
@@ -77,15 +79,12 @@ function verifierAnniv() {
 }
 
 
-
-
-/*
 let baliseEmail = document.getElementById("email")
 let email = baliseEmail.value
 
 function validerEmail(email) {
   let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
-  let parentFormData = balise.parentElement.closest(".formData");
+  let parentFormData = baliseEmail.parentElement.closest(".formData");
   if (!emailRegExp.test(email)) {
     parentFormData.classList.add("formData");
         parentFormData.setAttribute("data-error-visible", "true");
@@ -95,17 +94,16 @@ function validerEmail(email) {
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
   }
-}*/
+}
 
 
 
 
-function validate(e) {
-  e.preventDefault()
-  console.log("est ce qu'on est dedans")
+function validate() {
   var firstName = document.getElementById('first').value;
   var lastName = document.getElementById('last').value;
   var birthdate = document.getElementById('birthdate').value;
+  var email = document.getElementById('email').value;
  /* var location = document.querySelector('input[name="location"]:checked');
   var checkbox1 = document.getElementById('checkbox1').checked;*/
 
@@ -114,6 +112,11 @@ function validate(e) {
     verifierChamp(baliseNom)
     verifierChamp(balisePrenom)
   }
+  
+  if (!emailRegExp.test(email)) {
+    validerEmail(baliseEmail)
+  }
+
 
   /*// Vérification de l'option de localisation
   if (!location) {
@@ -124,7 +127,7 @@ function validate(e) {
   // Vérification de l'acceptation des conditions
   if (!checkbox1) {
       alert("Veuillez accepter les conditions d'utilisation.");
-      return false;
+     
   }*/
 
   // Vérification de la date de naissance
@@ -134,7 +137,7 @@ function validate(e) {
 
   // Affichage du message de confirmation
   document.querySelector(".confirmationModal").style.display = "block";
-  return false
+
 }
 
 
@@ -146,11 +149,11 @@ function validate(e) {
 
 
 
-/*// Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
+// Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
 form.addEventListener("submit", (event) => {
    event.preventDefault()
         validate()
 
-});*/
+});
 
 
