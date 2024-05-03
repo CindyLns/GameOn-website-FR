@@ -38,15 +38,12 @@ function closeModal() {
 
 
 
-// Données saisies
+// Messages d'erreur
 let form = document.querySelector("form")
 let balisePrenom = document.getElementById("first")
-let valeurPrenom = balisePrenom.value;
 let baliseNom = document.getElementById("last")
-let valeurNom = baliseNom.value;
 
 function verifierChamp(balise) {
-    // Récupérer la valeur du champ "Prénom et Nom"
     let valeurNom = balise.value.trim();
     let valeurPrenom = balise.value.trim();
     let parentFormData = balise.parentElement.closest(".formData");
@@ -150,7 +147,7 @@ function verifierCondition() {
   }
 }
 
-
+// Validation de chaque champ
 function validate() {
   var firstName = document.getElementById('first').value;
   var lastName = document.getElementById('last').value;
