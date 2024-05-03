@@ -62,6 +62,24 @@ function verifierChamp(balise) {
     }
 }
 
+let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+
+function validerEmail() {
+  let baliseEmail = document.getElementById("email");
+  let email = baliseEmail.value;
+  let parentFormData = baliseEmail.parentElement.closest(".formData");
+
+  if (!emailRegExp.test(email)) {
+    parentFormData.classList.add("formData");
+        parentFormData.setAttribute("data-error-visible", "true");
+        parentFormData.setAttribute("data-error",  `L'adresse électronique n'est pas valide`);
+  } else {
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+  }
+}
+
 function verifierAnniv() {
   let baliseBirthdate = document.getElementById("birthdate");
   let birthdate = baliseBirthdate.value;
@@ -78,17 +96,37 @@ function verifierAnniv() {
   }
 }
 
+function verifierLocation() {
+  let baliseLocation = document.querySelectorAll('input[name="location"]');
+  let parentFormData = baliseLocation[0].closest(".formData");
 
-let baliseEmail = document.getElementById("email")
-let email = baliseEmail.value
+  let locationSelected = false;
+  baliseLocation.forEach(function(radio) {
+    if (radio.checked) {
+      locationSelected = true;
+    }
+  });
 
-function validerEmail(email) {
-  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
-  let parentFormData = baliseEmail.parentElement.closest(".formData");
-  if (!emailRegExp.test(email)) {
-    parentFormData.classList.add("formData");
+    if (!locationSelected) {
+        parentFormData.classList.add("formData");
         parentFormData.setAttribute("data-error-visible", "true");
-        parentFormData.setAttribute("data-error",  `L'adresse électronique n'est pas valide`);
+        parentFormData.setAttribute("data-error",  `Veuillez choisir une option`);
+    } else {
+        parentFormData.classList.remove("formData");
+        parentFormData.removeAttribute("data-error-visible");
+        parentFormData.removeAttribute("data-error");
+    }
+}
+
+function verifierCondition() {
+  let baliseCondition = document.getElementById("checkbox1")
+  let condition = baliseCondition.checked
+  let parentFormData = baliseCondition.parentElement.closest(".formData");
+
+  if (!condition) {
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute("data-error",  `Vous devez vérifier que vous acceptez les termes et conditions`);
   } else {
     parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
@@ -97,46 +135,43 @@ function validerEmail(email) {
 }
 
 
-
-
 function validate() {
   var firstName = document.getElementById('first').value;
   var lastName = document.getElementById('last').value;
+  var email = document.getElementById("email").value;
   var birthdate = document.getElementById('birthdate').value;
-  var email = document.getElementById('email').value;
- /* var location = document.querySelector('input[name="location"]:checked');
-  var checkbox1 = document.getElementById('checkbox1').checked;*/
+  var location = document.querySelectorAll('input[name="location"]:checked');
+  var condition = document.getElementById('checkbox1').checked;
 
   // Vérification du champ Nom
   if (firstName.length < 2 && lastName.length < 2) {
     verifierChamp(baliseNom)
     verifierChamp(balisePrenom)
   }
-  
-  if (!emailRegExp.test(email)) {
-    validerEmail(baliseEmail)
+
+  if (!email) {
+    validerEmail()
   }
 
-
-  /*// Vérification de l'option de localisation
-  if (!location) {
-      alert("Veuillez choisir une option de localisation.");
-      return false;
+   // Vérification de la date de naissance
+  if (!birthdate) {
+    verifierAnniv()   
+  }
+  
+  // Vérification de l'option de localisation tournoi
+  if (location.length === 0) {
+      verifierLocation()
   }
 
   // Vérification de l'acceptation des conditions
-  if (!checkbox1) {
-      alert("Veuillez accepter les conditions d'utilisation.");
-     
-  }*/
-
-  // Vérification de la date de naissance
-  if (!birthdate) {
-      verifierAnniv()
+  if (!condition) {
+      verifierCondition()
   }
 
   // Affichage du message de confirmation
+  if (firstName && lastName && email && birthdate && location && condition) {
   document.querySelector(".confirmationModal").style.display = "block";
+  }
 
 }
 
