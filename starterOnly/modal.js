@@ -13,8 +13,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtns = document.querySelectorAll(".close");
 const endBtn = document.querySelector(".end");
-const modalConf = document.querySelector(".confirmationModal")
-
+const modalConf = document.querySelector(".confirmationModal");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -36,170 +35,220 @@ function closeModal() {
   modalConf.style.display = "none";
 }
 
-
+// Déclaration des variables pour stocker les données saisies
+let valeurPrenom,
+  valeurNom,
+  email,
+  birthdate,
+  quantity,
+  locationSelected,
+  condition;
 
 // Messages d'erreur
-let form = document.querySelector("form")
-let balisePrenom = document.getElementById("first")
-let baliseNom = document.getElementById("last")
+let form = document.querySelector("form");
 
-function verifierChamp(balise) {
-    let valeurNom = balise.value.trim();
-    let valeurPrenom = balise.value.trim();
-    let parentFormData = balise.parentElement.closest(".formData");
+function verifierPrenomEstBon() {
+  let balisePrenom = document.getElementById("first");
+  valeurPrenom = balisePrenom.value;
+  let parentFormData = balisePrenom.parentElement.closest(".formData");
 
-    if (valeurNom.length < 2 && valeurPrenom.length < 2 ) {
-        parentFormData.classList.add("formData");
-        parentFormData.setAttribute("data-error-visible", "true");
-        parentFormData.setAttribute("data-error",  `Veuillez entrer 2 caractères ou plus pour ce champ`);
-    } else {
-        parentFormData.classList.remove("formData");
-        parentFormData.removeAttribute("data-error-visible");
-        parentFormData.removeAttribute("data-error");
-    }
+  if (valeurPrenom.length < 2) {
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute(
+      "data-error",
+      `Veuillez entrer 2 caractères ou plus pour ce champ`
+    );
+    return false;
+  } else {
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+    return true;
+  }
+}
+
+function verifierNomEstBon() {
+  let baliseNom = document.getElementById("last");
+  valeurNom = baliseNom.value;
+  let parentFormData = baliseNom.parentElement.closest(".formData");
+
+  if (valeurNom.length < 2) {
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute(
+      "data-error",
+      `Veuillez entrer 2 caractères ou plus pour ce champ`
+    );
+    return false;
+  } else {
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+    return true;
+  }
 }
 
 let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
 
 function validerEmail() {
   let baliseEmail = document.getElementById("email");
-  let email = baliseEmail.value;
+  email = baliseEmail.value;
   let parentFormData = baliseEmail.parentElement.closest(".formData");
 
   if (!emailRegExp.test(email)) {
     parentFormData.classList.add("formData");
-        parentFormData.setAttribute("data-error-visible", "true");
-        parentFormData.setAttribute("data-error",  `L'adresse électronique n'est pas valide`);
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute(
+      "data-error",
+      `L'adresse électronique n'est pas valide`
+    );
+    return false;
   } else {
     parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
+    return true;
   }
 }
 
 function verifierAnniv() {
   let baliseBirthdate = document.getElementById("birthdate");
-  let birthdate = baliseBirthdate.value;
+  birthdate = baliseBirthdate.value;
   let parentFormData = baliseBirthdate.parentElement.closest(".formData");
 
   if (!birthdate) {
-      parentFormData.classList.add("formData");
-      parentFormData.setAttribute("data-error-visible", "true");
-      parentFormData.setAttribute("data-error",  `Veuillez entrer une date de naissance`);
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute(
+      "data-error",
+      `Veuillez entrer une date de naissance`
+    );
+    return false;
   } else {
-      parentFormData.classList.remove("formData");
-      parentFormData.removeAttribute("data-error-visible");
-      parentFormData.removeAttribute("data-error");
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+    return true;
   }
 }
 
-function nombreTournois() {
+function verifierNombreTournois() {
   let baliseQuantity = document.getElementById("quantity");
+  quantity = parseInt(baliseQuantity.value);
   let parentFormData = baliseQuantity.parentElement.closest(".formData");
 
   if (isNaN(quantity) || quantity < 0 || quantity > 99) {
-      parentFormData.classList.add("formData");
-      parentFormData.setAttribute("data-error-visible", "true");
-      parentFormData.setAttribute("data-error",  `Veuillez sélectionner un chiffre`);
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute(
+      "data-error",
+      `Veuillez sélectionner un chiffre`
+    );
+    return false;
   } else {
-      parentFormData.classList.remove("formData");
-      parentFormData.removeAttribute("data-error-visible");
-      parentFormData.removeAttribute("data-error");
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+    return true;
   }
-
 }
 
 function verifierLocation() {
   let baliseLocation = document.querySelectorAll('input[name="location"]');
   let parentFormData = baliseLocation[0].closest(".formData");
 
-  let locationSelected = false;
-  baliseLocation.forEach(function(radio) {
+  locationSelected = false;
+  baliseLocation.forEach(function (radio) {
     if (radio.checked) {
       locationSelected = true;
     }
   });
 
-    if (!locationSelected) {
-        parentFormData.classList.add("formData");
-        parentFormData.setAttribute("data-error-visible", "true");
-        parentFormData.setAttribute("data-error",  `Veuillez choisir une option`);
-    } else {
-        parentFormData.classList.remove("formData");
-        parentFormData.removeAttribute("data-error-visible");
-        parentFormData.removeAttribute("data-error");
-    }
+  if (!locationSelected) {
+    parentFormData.classList.add("formData");
+    parentFormData.setAttribute("data-error-visible", "true");
+    parentFormData.setAttribute("data-error", `Veuillez choisir une option`);
+    return false;
+  } else {
+    parentFormData.classList.remove("formData");
+    parentFormData.removeAttribute("data-error-visible");
+    parentFormData.removeAttribute("data-error");
+    return true;
+  }
 }
 
 function verifierCondition() {
-  let baliseCondition = document.getElementById("checkbox1")
-  let condition = baliseCondition.checked
+  let baliseCondition = document.getElementById("checkbox1");
+  condition = baliseCondition.checked;
   let parentFormData = baliseCondition.parentElement.closest(".formData");
 
   if (!condition) {
     parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
-    parentFormData.setAttribute("data-error",  `Vous devez vérifier que vous acceptez les termes et conditions`);
+    parentFormData.setAttribute(
+      "data-error",
+      `Vous devez vérifier que vous acceptez les termes et conditions`
+    );
+    return false;
   } else {
     parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
+    return true;
   }
 }
 
 // Validation de chaque champ
 function validate() {
-  var firstName = document.getElementById('first').value;
-  var lastName = document.getElementById('last').value;
-  var email = document.getElementById("email").value;
-  var birthdate = document.getElementById('birthdate').value;
-  var quantity = document.getElementById("quantity").value;
-  var location = document.querySelectorAll('input[name="location"]:checked');
-  var condition = document.getElementById('checkbox1').checked;
+  const isFirstName = verifierPrenomEstBon();
 
-  // Vérification du champ Nom
-  if (firstName.length < 2 && lastName.length < 2) {
-    verifierChamp(baliseNom)
-    verifierChamp(balisePrenom)
+  const isLastName = verifierNomEstBon();
+
+  const isEmail = validerEmail();
+
+  const isBirthdate = verifierAnniv();
+
+  const isQuantity = verifierNombreTournois();
+
+  const isLocation = verifierLocation();
+
+  const isCondition = verifierCondition();
+
+  if (
+    isFirstName &&
+    isLastName &&
+    isEmail &&
+    isBirthdate &&
+    isQuantity &&
+    isLocation &&
+    isCondition
+  ) {
+    formValidated();
   }
-
-  if (!email) {
-    validerEmail()
-  }
-
-   // Vérification de la date de naissance
-  if (!birthdate) {
-    verifierAnniv()   
-  }
-
-   // Vérification du nombre de concours
-   if (!quantity) {
-    nombreTournois()   
-  }
-
-  // Vérification de l'option de localisation tournoi
-  if (location.length === 0) {
-      verifierLocation()
-  }
-
-  // Vérification de l'acceptation des conditions
-  if (!condition) {
-      verifierCondition()
-  }
-
-  // Affichage du message de confirmation
-  if (firstName && lastName && email && birthdate && location && condition) {
-  document.querySelector(".confirmationModal").style.display = "block";
-  }
-
 }
 
+function formValidated() {
+  // Faire un console log des données saisies
+  console.log(valeurPrenom);
+  console.log(valeurNom);
+  console.log(email);
+  console.log(birthdate);
+  console.log(quantity);
+  console.log(locationSelected);
+  console.log(condition);
+
+  // Reset les données saisies
+  document.querySelector("form").reset();
+
+  // Ne plus afficher la form
+  modalbg.style.display = "none";
+  // Affiche le message de confirmation
+  document.querySelector(".confirmationModal").style.display = "block";
+}
 
 // Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
 form.addEventListener("submit", (event) => {
-   event.preventDefault()
-        validate()
-
+  event.preventDefault();
+  validate();
 });
-
-
