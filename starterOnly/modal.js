@@ -96,6 +96,22 @@ function verifierAnniv() {
   }
 }
 
+function nombreTournois() {
+  let baliseQuantity = document.getElementById("quantity");
+  let parentFormData = baliseQuantity.parentElement.closest(".formData");
+
+  if (isNaN(quantity) || quantity < 0 || quantity > 99) {
+      parentFormData.classList.add("formData");
+      parentFormData.setAttribute("data-error-visible", "true");
+      parentFormData.setAttribute("data-error",  `Veuillez sélectionner un chiffre`);
+  } else {
+      parentFormData.classList.remove("formData");
+      parentFormData.removeAttribute("data-error-visible");
+      parentFormData.removeAttribute("data-error");
+  }
+
+}
+
 function verifierLocation() {
   let baliseLocation = document.querySelectorAll('input[name="location"]');
   let parentFormData = baliseLocation[0].closest(".formData");
@@ -140,6 +156,7 @@ function validate() {
   var lastName = document.getElementById('last').value;
   var email = document.getElementById("email").value;
   var birthdate = document.getElementById('birthdate').value;
+  var quantity = document.getElementById("quantity").value;
   var location = document.querySelectorAll('input[name="location"]:checked');
   var condition = document.getElementById('checkbox1').checked;
 
@@ -157,7 +174,12 @@ function validate() {
   if (!birthdate) {
     verifierAnniv()   
   }
-  
+
+   // Vérification du nombre de concours
+   if (!quantity) {
+    nombreTournois()   
+  }
+
   // Vérification de l'option de localisation tournoi
   if (location.length === 0) {
       verifierLocation()
@@ -174,14 +196,6 @@ function validate() {
   }
 
 }
-
-
-
-
-
-
-
-
 
 
 // Ajout d'un écouteur d'événement sur le formulaire pour écouter le submit
