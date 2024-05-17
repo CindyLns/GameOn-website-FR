@@ -149,18 +149,13 @@ function verifierLocation() {
   let baliseLocation = document.querySelectorAll('input[name="location"]');
   let parentFormData = baliseLocation[0].closest(".formData");
 
- locationSelected = false;
-  baliseLocation.forEach(function (radio) {
-    if (radio.checked) {
-      locationSelected = true;
-      }
-  });
-
-/*for(let i = 0; i < baliseLocation.length; i++){
- if(baliseLocation[i].checked){
-   baliseLocation[i].value;
- }
-}*/
+  let locationSelected = "";
+  for (let i = 0; i < baliseLocation.length; i++) {
+    if (baliseLocation[i].checked) {
+      locationSelected = baliseLocation[i].value;
+      break;
+    }
+  }
 
   if (!locationSelected) {
     parentFormData.setAttribute("data-error-visible", "true");
@@ -229,8 +224,8 @@ function formValidated() {
   console.log("Date de naissance: ", birthdate);
   console.log("Nombre de tournois: ", quantity);
   console.log("Tournoi de: ", locationSelected);
-  console.log("Conditions d'utilisation : ",condition);
-  let infoEvent = document.getElementById("checkbox2")
+  console.log("Conditions d'utilisation : ", condition);
+  let infoEvent = document.getElementById("checkbox2");
   console.log("Prochains événements: ", infoEvent.checked);
 
   // Reset les données saisies
