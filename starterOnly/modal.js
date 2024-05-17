@@ -36,13 +36,14 @@ function closeModal() {
 }
 
 // Déclaration des variables pour stocker les données saisies
-let valeurPrenom,
-  valeurNom,
-  email,
-  birthdate,
-  quantity,
-  locationSelected,
-  condition;
+
+let valeurPrenom = "";
+let valeurNom = "";
+let email = "";
+let birthdate = "";
+let quantity = "";
+let locationSelected = "";
+let condition = "";
 
 // Messages d'erreur
 let form = document.querySelector("form");
@@ -53,7 +54,6 @@ function verifierPrenomEstBon() {
   let parentFormData = balisePrenom.parentElement.closest(".formData");
 
   if (valeurPrenom.length < 2) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -61,7 +61,6 @@ function verifierPrenomEstBon() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -74,7 +73,6 @@ function verifierNomEstBon() {
   let parentFormData = baliseNom.parentElement.closest(".formData");
 
   if (valeurNom.length < 2) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -82,7 +80,6 @@ function verifierNomEstBon() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -97,7 +94,6 @@ function validerEmail() {
   let parentFormData = baliseEmail.parentElement.closest(".formData");
 
   if (!emailRegExp.test(email)) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -105,7 +101,6 @@ function validerEmail() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -118,7 +113,6 @@ function verifierAnniv() {
   let parentFormData = baliseBirthdate.parentElement.closest(".formData");
 
   if (!birthdate) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -126,7 +120,6 @@ function verifierAnniv() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -139,7 +132,6 @@ function verifierNombreTournois() {
   let parentFormData = baliseQuantity.parentElement.closest(".formData");
 
   if (isNaN(quantity) || quantity < 0 || quantity > 99) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -147,7 +139,6 @@ function verifierNombreTournois() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -158,20 +149,24 @@ function verifierLocation() {
   let baliseLocation = document.querySelectorAll('input[name="location"]');
   let parentFormData = baliseLocation[0].closest(".formData");
 
-  locationSelected = false;
+ locationSelected = false;
   baliseLocation.forEach(function (radio) {
     if (radio.checked) {
       locationSelected = true;
-    }
+      }
   });
 
+/*for(let i = 0; i < baliseLocation.length; i++){
+ if(baliseLocation[i].checked){
+   baliseLocation[i].value;
+ }
+}*/
+
   if (!locationSelected) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute("data-error", `Veuillez choisir une option`);
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -184,7 +179,6 @@ function verifierCondition() {
   let parentFormData = baliseCondition.parentElement.closest(".formData");
 
   if (!condition) {
-    parentFormData.classList.add("formData");
     parentFormData.setAttribute("data-error-visible", "true");
     parentFormData.setAttribute(
       "data-error",
@@ -192,7 +186,6 @@ function verifierCondition() {
     );
     return false;
   } else {
-    parentFormData.classList.remove("formData");
     parentFormData.removeAttribute("data-error-visible");
     parentFormData.removeAttribute("data-error");
     return true;
@@ -230,16 +223,26 @@ function validate() {
 
 function formValidated() {
   // Faire un console log des données saisies
-  console.log(valeurPrenom);
-  console.log(valeurNom);
-  console.log(email);
-  console.log(birthdate);
-  console.log(quantity);
-  console.log(locationSelected);
-  console.log(condition);
+  console.log("Prénom: ", valeurPrenom);
+  console.log("Nom: ", valeurNom);
+  console.log("E-mail: ", email);
+  console.log("Date de naissance: ", birthdate);
+  console.log("Nombre de tournois: ", quantity);
+  console.log("Tournoi de: ", locationSelected);
+  console.log("Conditions d'utilisation : ",condition);
+  let infoEvent = document.getElementById("checkbox2")
+  console.log("Prochains événements: ", infoEvent.checked);
 
   // Reset les données saisies
   document.querySelector("form").reset();
+  valeurPrenom = "";
+  valeurNom = "";
+  email = "";
+  birthdate = "";
+  quantity = "";
+  locationSelected = "";
+  condition = "";
+  infoEvent = "";
 
   // Ne plus afficher la form
   modalbg.style.display = "none";
