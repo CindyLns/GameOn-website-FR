@@ -149,7 +149,6 @@ function verifierLocation() {
   let baliseLocation = document.querySelectorAll('input[name="location"]');
   let parentFormData = baliseLocation[0].closest(".formData");
 
-  let locationSelected = "";
   for (let i = 0; i < baliseLocation.length; i++) {
     if (baliseLocation[i].checked) {
       locationSelected = baliseLocation[i].value;
