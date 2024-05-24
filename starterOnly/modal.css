@@ -350,7 +350,7 @@ input[data-error]::after {
 }
 .msg{
   text-align: center;
-  margin: 70% auto;
+  margin: 50% auto;
   font-family: var(--font-slab);
   font-size: 36px;
   padding: 0 30px;
@@ -459,7 +459,7 @@ input[data-error]::after {
   z-index: 1;
 }
 .hero-headline {
-  font-size: 6rem;
+  font-size: clamp(4rem, -4rem + 16vw, 6rem);
   font-weight: normal;
   white-space: nowrap;
 }
@@ -485,6 +485,7 @@ input[data-error]::after {
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;
